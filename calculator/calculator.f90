@@ -1,6 +1,8 @@
 !calculator.f90 v0.01
 !v0.01 +,-,*,/
 !v0.02 *,/ first
+!v0.03 linear equation, quadratic equation
+!v0.04 menu
        integer::num_count
        write(*,*)'write the number of numbers in the equation'
        read(*,*)num_count
