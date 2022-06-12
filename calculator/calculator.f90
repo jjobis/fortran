@@ -1,56 +1,129 @@
 !calculator.f90 v0.01
 !v0.01 +,-,*,/
+!v0.02 *,/ first
+       integer::num_count
+       write(*,*)'write the number of numbers in the equation'
+       read(*,*)num_count
+       call four_math_cal_read(num_count)
+       end
+     
 
-       integer::math_code
-       real::four_cal
-       real::four_ans
-       
-       write(*,*)'add number'
-       read(*,*)four_cal
-              write(*,*)'enter 1 if you want to + it'
-              write(*,*)'enter 2 if you want to - it'
-              write(*,*)'enter 3 if you want to x it'
-              write(*,*)'enter 4 if you want to / it'
-              read(*,*)math_code
-              if(math_code==1)then
-                     call plus(four_cal,four_ans)
-              else if(math_code==2)then
-                     call minus(four_cal,four_ans)
-              else if(math_code==3)then
-                     call multiply(four_cal,four_ans)
-              else if(math_code==4)then
-                     call division(four_cal,four_ans)
+
+       subroutine four_math_cal_read(a)
+              integer::a
+              integer,dimension(a-1)::math_code
+              real,dimension(a)::four_cal
+              real::four_ans
+              write(*,*)'add number'
+              read(*,*)four_cal(1)
+              do i=2,a
+                     write(*,*)'enter 1 if you want to + it'
+                     write(*,*)'enter 2 if you want to - it'
+                     write(*,*)'enter 3 if you want to x it'
+                     write(*,*)'enter 4 if you want to / it'
+              read(*,*)math_code(i-1)
+              write(*,*)'add number'
+              read(*,*)four_cal(i)
+              end do
+              write(*,*)(four_cal(i),i=1,a),(math_code(j),j=1,a-1)
+              call four_math_cal(a,math_code,four_cal,four_ans)
+       end
+
+       subroutine four_math_cal(a,math_code,four_cal,four_ans)
+              integer::a,b
+              integer,dimension(a-1)::math_code
+              real,dimension(a)::four_cal
+              real::four_ans
+7             do i=1,a-1
+                     b=i
+                     if(math_code(i)==3)then
+                     call multiply(a,math_code,four_cal,four_ans,b)
+                     else if(math_code(i)==4)then
+                     call division(a,math_code,four_cal,four_ans,b)
+                     else if(math_code(i)==1)then
+                     call plus(a,math_code,four_cal,four_ans,b)
+                     else
+                     call minus(a,math_code,four_cal,four_ans,b)
+                     end if
+                     a=a-1
+                     write(*,*)four_ans
+                     go to 7
+              end do
+              write(*,*)'ans=',four_cal(1)
+       end
+
+       subroutine multiply(a,math_code,four_cal,four_ans,b)
+              integer::a,b,c
+              integer,dimension(a-1)::math_code
+              real,dimension(a)::four_cal
+              real::four_ans
+              four_ans=four_cal(b)*four_cal(b+1)
+              four_cal(b)=four_ans
+              do i=b,a-1
+              if(b/=a-1)then   
+                     math_code(i)=math_code(i+1)
               end if
-       write(*,10)four_ans
-10     format(f10.4)
-       end 
+              end do
+              do i=b+1,a
+              if(b/=a-1)then   
+                     four_cal(i)=four_cal(i+1)
+              end if
+              end do
+       end
 
-       subroutine plus(a,c)
-              real::a,b,c
-              write(*,*)'add number'
-              read(*,*)b
-              c=a+b
-       end subroutine plus
+       subroutine division(a,math_code,four_cal,four_ans,b)
+              integer::a,b
+              integer,dimension(a-1)::math_code
+              real,dimension(a)::four_cal
+              real::four_ans
+              four_ans=four_cal(b)/four_cal(b+1)
+              four_cal(b)=four_ans
+              do i=b,a-1
+              if(b/=a-1)then   
+                     math_code(i)=math_code(i+1)
+              end if
+              end do
+              do i=b+1,a
+              if(b/=a-1)then   
+                     four_cal(i)=four_cal(i+1)
+              end if
+              end do
+       end
 
-       subroutine minus(a,c)
-              real::a,b,c
-              write(*,*)'add number'
-              read(*,*)b
-              c=a-b
-       end subroutine minus
+       subroutine plus(a,math_code,four_cal,four_ans,b)
+              integer::a,b
+              integer,dimension(a-1)::math_code
+              real,dimension(a)::four_cal
+              real::four_ans
+              four_ans=four_cal(b)+four_cal(b+1)
+              four_cal(b)=four_ans
+              do i=b,a-1
+              if(b/=a-1)then   
+                     math_code(i)=math_code(i+1)
+              end if
+              end do
+              do i=b+1,a
+              if(b/=a-1)then   
+                     four_cal(i)=four_cal(i+1)
+              end if
+              end do
+       end
 
-       subroutine multiply(a,c)
-              real::a,b,c
-              write(*,*)'add number'
-              read(*,*)b
-              c=a*b
-       end subroutine multiply
-
-       subroutine division(a,c)
-              real::a,b,c
-              write(*,*)'add number'
-              read(*,*)b
-              c=a/b
-       end subroutine division
-
-       
+       subroutine minus(a,math_code,four_cal,four_ans,b)
+              integer::a,b
+              integer,dimension(a-1)::math_code
+              real,dimension(a)::four_cal
+              real::four_ans
+              four_ans=four_cal(b)-four_cal(b+1)
+              four_cal(b)=four_ans
+              do i=b,a-1
+              if(b/=a-1)then   
+                     math_code(i)=math_code(i+1)
+              end if
+              end do
+              do i=b+1,a
+              if(b/=a-1)then   
+                     four_cal(i)=four_cal(i+1)
+              end if
+              end do
+       end
