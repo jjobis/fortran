@@ -47,22 +47,83 @@
        end
 
        subroutine four_math_cal_read(a)
-              integer::a
+              integer::a,b
               integer,dimension(a-1)::math_code
               real,dimension(a)::four_cal
               real::four_ans
               write(*,*)'add number'
               read(*,*)four_cal(1)
               do i=2,a
+                     b=i
                      write(*,*)'enter 1 if you want to + it'
                      write(*,*)'enter 2 if you want to - it'
                      write(*,*)'enter 3 if you want to x it'
                      write(*,*)'enter 4 if you want to / it'
+                     write(*,*)'enter 5 if you want function'
               read(*,*)math_code(i-1)
+              
+              if(math_code(i-1)==5)then
+              call function_four(a,math_code,four_cal,b)
+              goto 8
+              end if
               write(*,*)'add number'
               read(*,*)four_cal(i)
+8             write(*,*)
               end do
               call four_math_cal(a,math_code,four_cal,four_ans)
+       end
+
+       subroutine function_four(a,math_code,four_cal,b)
+              integer::a,b,function_num
+              integer,dimension(a-1)::math_code
+              real,dimension(a)::four_cal
+              real::tri_ans
+              call function_what(a,b,tri_ans,function_num,math_code,four_cal)
+              call function_four_num(a,b,tri_ans,function_num,math_code,four_cal)
+              end
+
+       subroutine function_what(a,b,tri_ans,function_num,math_code,four_cal)
+              integer::a,b
+              integer,dimension(a-1)::math_code
+              real,dimension(a)::four_cal
+              integer::function_num
+              real::tri_ans,c
+              write(*,*)'what function do you want'
+              write(*,*)'trigorometrical function -> 1'
+              write(*,*)'                     log -> 2'
+              write(*,*)'                    root -> 3'
+              write(*,*)'                     abs -> 4'
+              read(*,*)function_num
+              if(function_num==1)then
+                     call trigorometrical_function(tri_ans)
+                     four_cal(b)=tri_ans
+              else if(function_num==2)then
+                     write(*,*)'add number'
+                     read(*,*)c
+                     four_cal(b)=log(c)
+              else if(function_num==3)then
+                     write(*,*)'add number'
+                     read(*,*)c
+                     four_cal(b)=sqrt(c)
+              else if(function_num==4)then
+                     write(*,*)'add number'
+                     read(*,*)c
+                     four_cal(b)=abs(c)
+              end if
+       end
+
+       subroutine function_four_num(a,b,tri_ans,function_num,math_code,four_cal)
+              integer::a,b,c
+              integer,dimension(a-1)::math_code
+              real,dimension(a)::four_cal
+              integer::function_num
+              real::tri_ans
+              write(*,*)'enter 1 if you want to + it'
+              write(*,*)'enter 2 if you want to - it'
+              write(*,*)'enter 3 if you want to x it'
+              write(*,*)'enter 4 if you want to / it'
+              read(*,*)c
+              math_code(b-1)=c
        end
 
        subroutine if_mul_div(a,math_code,four_cal,four_ans)
@@ -334,53 +395,78 @@
        end
 
        subroutine trigorometrical_function_menu
+              real::tri_ans
+              call trigorometrical_function(tri_ans)
+       end
+
+       subroutine trigorometrical_function(tri_ans)
               integer::a
+              real::tri_ans
+              tri_ans=0
               write(*,*)'| sin a => 1 | cos a => 2 | tan a => 3 |'
               write(*,*)'| csc a => 4 | sec a => 5 | cot a => 6 |'
               read(*,*)a
-              if(a==1) call sin_function
-              if(a==2) call cos_function
-              if(a==3) call tan_function
-              if(a==4) call csc_function
-              if(a==5) call sec_function
-              if(a==6) call cot_function
+              if(a==1)then
+              call sin_function(tri_ans)
+              write(*,*)'ans=',tri_ans
+              else if(a==2)then
+              call cos_function(tri_ans)
+              write(*,*)'ans=',tri_ans
+              else if(a==3)then
+              call tan_function(tri_ans)
+              write(*,*)'ans=',tri_ans
+              else if(a==4)then
+              call csc_function(tri_ans)
+              write(*,*)'ans=',tri_ans
+              else if(a==5)then
+              call sec_function(tri_ans)
+              write(*,*)'ans=',tri_ans
+              else if(a==6)then
+              call cot_function(tri_ans)
+              write(*,*)'ans=',tri_ans
+              end if
        end
 
-       subroutine sin_function
-              real::a
+       subroutine sin_function(tri_ans)
+              real::a,tri_ans
               write(*,*)'sin a -> write [ a ] (degree)'
               read(*,*)a
-              write(*,*)sin(a*3.14159265/180)
+              tri_ans=sin(a*3.14159265/180)
        end
 
-       subroutine cos_function
+       subroutine cos_function(tri_ans)
+              real::a,tri_ans
               write(*,*)'cos a -> write [ a ] (degree)'
               read(*,*)a
-              write(*,*)cos(a*3.14159265/180)
+              tri_ans=cos(a*3.14159265/180)
        end
 
-       subroutine tan_function
+       subroutine tan_function(tri_ans)
+              real::a,tri_ans
               write(*,*)'tan a -> write [ a ] (degree)'
               read(*,*)a
-              write(*,*)tan(a*3.14159265/180)
+              tri_ans=tan(a*3.14159265/180)
        end
 
-       subroutine csc_function
+       subroutine csc_function(tri_ans)
+              real::a,tri_ans
               write(*,*)'csc a -> write [ a ] (degree)'
               read(*,*)a
-              write(*,*)1/sin(a*3.14159265/180)
+              tri_ans=1/sin(a*3.14159265/180)
        end
 
-       subroutine sec_function
+       subroutine sec_function(tri_ans)
+              real::a,tri_ans
               write(*,*)'sec a -> write [ a ] (degree)'
               read(*,*)a
-              write(*,*)1/cos(a*3.14159265/180)
+              tri_ans=1/cos(a*3.14159265/180)
        end
 
-       subroutine cot_function
+       subroutine cot_function(tri_ans)
+              real::a,tri_ans
               write(*,*)'cot a -> write [ a ] (degree)'
               read(*,*)a
-              write(*,*)1/tan(a*3.14159265/180)
+              tri_ans=1/tan(a*3.14159265/180)
        end
        
        
