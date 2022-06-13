@@ -5,14 +5,15 @@
 !v0.04 linear equation, quadratic equation
 !v0.05 menu +
 
-       integer::a
+       integer::mod_num
        write(*,*)'four fundamental rules of arithmetics -> 1'
-       write(*,*)'linear equation -> 2'
-       write(*,*)'quadratic equation ->3'
+       write(*,*)'                      linear equation -> 2'
+       write(*,*)'                   quadratic equation -> 3'
        write(*,*)'select mod'
-       if(a==1) call four_fundamental_rules_of_arithmetics
-       if(a==2) call linear_equation
-       if(a==3) call quadratic_equation
+       read(*,*)mod_num
+       if(mod_num==1) call four_fundamental_rules_of_arithmetics
+       if(mod_num==2) call linear_equation
+       if(mod_num==3) call quadratic_equation
        end
        
        subroutine four_fundamental_rules_of_arithmetics
