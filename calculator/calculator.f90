@@ -56,7 +56,6 @@
               write(*,*)'add number'
               read(*,*)four_cal(i)
               end do
-              write(*,*)(four_cal(i),i=1,a),(math_code(j),j=1,a-1)
               call four_math_cal(a,math_code,four_cal,four_ans)
        end
 
@@ -65,32 +64,22 @@
               integer,dimension(a-1)::math_code
               real,dimension(a)::four_cal
               real::four_ans
-              write(*,*)'mu.di'
-              call check_code_dimensions(a,math_code,four_cal)
               if(a/=1)goto 7
               if(a==1)goto 8
-7             write(*,*)'goto7 mu'
+7             continue
               do i=1,a-1
                      b=i
                      if(math_code(i)==3)then
-                     write(*,*)a,math_code(i),four_cal,four_ans,b
                      call multiply(a,math_code,four_cal,four_ans,b)
-                     write(*,*)a,math_code(i),four_cal,four_ans,b
                      else if(math_code(i)==4)then
-                     write(*,*)a,math_code(i),four_cal,four_ans,b
                      call division(a,math_code,four_cal,four_ans,b)
-                     write(*,*)a,math_code(i),four_cal,four_ans,b
                      end if
               end do
-8             write(*,*)'goto8 mu'
+8             continue
               if(math_code(1)==3)then
-                     write(*,*)a,math_code(1),four_cal,four_ans,b
                      call multiply(a,math_code,four_cal,four_ans,b)
-                     write(*,*)a,math_code(1),four_cal,four_ans,b
               else if(math_code(1)==4)then
-                     write(*,*)a,math_code(1),four_cal,four_ans,b
                      call division(a,math_code,four_cal,four_ans,b)
-                     write(*,*)a,math_code(1),four_cal,four_ans,b
               end if
        end
 
@@ -99,32 +88,23 @@
               integer,dimension(a-1)::math_code
               real,dimension(a)::four_cal
               real::four_ans
-              write(*,*)'pu.di'
-              call check_code_dimensions(a,math_code,four_cal)
               if(a/=1)goto 7
               if(a==1)goto 8
-7             write(*,*)'goto7 pu'
+7             continue
               do i=1,a-1
                      b=i
                      if(math_code(i)==1)then
-                     write(*,*)a,math_code(i),four_cal,four_ans,b
                      call plus(a,math_code,four_cal,four_ans,b)
-                     write(*,*)a,math_code(i),four_cal,four_ans,b
                      else if(math_code(i)==2)then
-                     write(*,*)a,math_code(i),four_cal,four_ans,b
                      call minus(a,math_code,four_cal,four_ans,b)
-                     write(*,*)a,math_code(i),four_cal,four_ans,b
                      end if
               end do
-8             write(*,*)'goto8 pu'
+8             continue
+              b=1
               if(math_code(1)==1)then
-                     write(*,*)a,math_code(1),four_cal,four_ans,b
                      call plus(a,math_code,four_cal,four_ans,b)
-                     write(*,*)a,math_code(1),four_cal,four_ans,b
               else if(math_code(1)==2)then
-                     write(*,*)a,math_code(1),four_cal,four_ans,b
                      call minus(a,math_code,four_cal,four_ans,b)
-                     write(*,*)a,math_code(1),four_cal,four_ans,b
               end if
        end
 
@@ -145,10 +125,10 @@
               real::four_ans
               four_ans=four_cal(b)*four_cal(b+1)
               four_cal(b)=four_ans
-              if(b/=a-1)goto 7
-              if(b==a-1)goto 8
+              if(b/=a)goto 7
+              if(b==a)goto 8
 7             do i=b,a-1
-              if(b/=a-1)then   
+              if(b/=a)then   
                      math_code(i)=math_code(i+1)
               end if
               end do
@@ -180,17 +160,17 @@
               real::four_ans
               four_ans=four_cal(b)/four_cal(b+1)
               four_cal(b)=four_ans
-              if(b/=a-1)goto 7
-              if(b==a-1)goto 8
+              if(b/=a)goto 7
+              if(b==a)goto 8
 7             do i=b,a-1
-              if(b/=a-1)then   
+              if(b/=a)then   
                      math_code(i)=math_code(i+1)
               end if
               end do
               goto 9
 8             math_code(1)=math_code(2)
 9             do i=b+1,a
-              if(b/=a-1)then   
+              if(b/=a)then   
                      four_cal(i)=four_cal(i+1)
               end if
               end do
@@ -215,17 +195,17 @@
               real::four_ans
               four_ans=four_cal(b)+four_cal(b+1)
               four_cal(b)=four_ans
-              if(b/=a-1)goto 7
-              if(b==a-1)goto 8
+              if(b/=a)goto 7
+              if(b==a)goto 8
 7             do i=b,a-1
-              if(b/=a-1)then   
+              if(b/=a)then   
                      math_code(i)=math_code(i+1)
               end if
               end do
               goto 9
 8             math_code(1)=math_code(2)
 9             do i=b+1,a
-              if(b/=a-1)then   
+              if(b/=a)then   
                      four_cal(i)=four_cal(i+1)
               end if
               end do
@@ -244,10 +224,10 @@
               real::four_ans
               four_ans=four_cal(b)-four_cal(b+1)
               four_cal(b)=four_ans
-              if(b/=a-1)goto 7
-              if(b==a-1)goto 8
+              if(b/=a)goto 7
+              if(b==a)goto 8
 7             do i=b,a-1
-              if(b/=a-1)then   
+              if(b/=a)then   
                      math_code(i)=math_code(i+1)
               end if
               end do
