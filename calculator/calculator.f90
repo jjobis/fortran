@@ -1,15 +1,27 @@
 !calculator.f90 v0.01
 !v0.01 +,-,*,/
 !v0.02 *,/ first
-!v0.03 linear equation, quadratic equation
-!v0.04 menu
+!v0.03 menu
+!v0.04 linear equation, quadratic equation
+!v0.05 menu +
+
+       integer::a
+       write(*,*)'four fundamental rules of arithmetics -> 1'
+       write(*,*)'linear equation -> 2'
+       write(*,*)'quadratic equation ->3'
+       write(*,*)'select mod'
+       if(a==1) call four_fundamental_rules_of_arithmetics
+       if(a==2) call linear_equation
+       if(a==3) call quadratic_equation
+       end
+       
+       subroutine four_fundamental_rules_of_arithmetics
        integer::num_count
+       write(*,*)'---------------four_fundamental_rules_of_arithmetics---------------'
        write(*,*)'write the number of numbers in the equation'
        read(*,*)num_count
        call four_math_cal_read(num_count)
        end
-     
-
 
        subroutine four_math_cal_read(a)
               integer::a
@@ -128,4 +140,12 @@
                      four_cal(i)=four_cal(i+1)
               end if
               end do
+       end
+
+       subroutine linear_equation
+              write(*,*)'---------------linear_equation---------------'
+       end
+
+       subroutine quadratic_equation
+              write(*,*)'---------------quadratic_equation---------------'
        end
