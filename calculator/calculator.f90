@@ -11,11 +11,13 @@
 11     write(*,*)'four fundamental rules of arithmetics -> 1'
        write(*,*)'                      linear equation -> 2'
        write(*,*)'                   quadratic equation -> 3'
+       write(*,*)'             trigorometrical function -> 4'
        write(*,*)'select mod'
        read(*,*)mod_num
        if(mod_num==1) call four_fundamental_rules_of_arithmetics
        if(mod_num==2) call linear_equation_menu
        if(mod_num==3) call quadratic_equation_menu
+       if(mod_num==4) call trigorometrical_function_menu
        write(*,*)'continue calculating? Y->1 N->2'
        read(*,*)con_cal
        if (con_cal==1) goto 11
@@ -330,3 +332,55 @@
               write(*,*)'d<0 [ 0 ] value in x  '
               end if
        end
+
+       subroutine trigorometrical_function_menu
+              integer::a
+              write(*,*)'| sin a => 1 | cos a => 2 | tan a => 3 |'
+              write(*,*)'| csc a => 4 | sec a => 5 | cot a => 6 |'
+              read(*,*)a
+              if(a==1) call sin_function
+              if(a==2) call cos_function
+              if(a==3) call tan_function
+              if(a==4) call csc_function
+              if(a==5) call sec_function
+              if(a==6) call cot_function
+       end
+
+       subroutine sin_function
+              real::a
+              write(*,*)'sin a -> write [ a ] (degree)'
+              read(*,*)a
+              write(*,*)sin(a*3.14159265/180)
+       end
+
+       subroutine cos_function
+              write(*,*)'cos a -> write [ a ] (degree)'
+              read(*,*)a
+              write(*,*)cos(a*3.14159265/180)
+       end
+
+       subroutine tan_function
+              write(*,*)'tan a -> write [ a ] (degree)'
+              read(*,*)a
+              write(*,*)tan(a*3.14159265/180)
+       end
+
+       subroutine csc_function
+              write(*,*)'csc a -> write [ a ] (degree)'
+              read(*,*)a
+              write(*,*)1/sin(a*3.14159265/180)
+       end
+
+       subroutine sec_function
+              write(*,*)'sec a -> write [ a ] (degree)'
+              read(*,*)a
+              write(*,*)1/cos(a*3.14159265/180)
+       end
+
+       subroutine cot_function
+              write(*,*)'cot a -> write [ a ] (degree)'
+              read(*,*)a
+              write(*,*)1/tan(a*3.14159265/180)
+       end
+       
+       
