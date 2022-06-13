@@ -7,7 +7,8 @@
 !v0.05 menu + 
 
        integer::mod_num
-       write(*,*)'four fundamental rules of arithmetics -> 1'
+       integer::con_cal
+11     write(*,*)'four fundamental rules of arithmetics -> 1'
        write(*,*)'                      linear equation -> 2'
        write(*,*)'                   quadratic equation -> 3'
        write(*,*)'select mod'
@@ -15,6 +16,9 @@
        if(mod_num==1) call four_fundamental_rules_of_arithmetics
        if(mod_num==2) call linear_equation
        if(mod_num==3) call quadratic_equation
+       write(*,*)'continue calculating? Y->1 N->2'
+       read(*,*)con_cal
+       if (con_cal==1) goto 11
        end
        
        subroutine four_fundamental_rules_of_arithmetics
