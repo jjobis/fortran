@@ -2,8 +2,9 @@
 !v0.01 +,-,*,/
 !v0.02 *,/ first
 !v0.03 menu
+!v0.03.2 error with four fundamental rules of arithmetics : error code : Program received signal SIGSEGV: Segmentation fault - invalid memory reference.
 !v0.04 linear equation, quadratic equation
-!v0.05 menu +
+!v0.05 menu + 
 
        integer::mod_num
        write(*,*)'four fundamental rules of arithmetics -> 1'
@@ -44,27 +45,78 @@
               call four_math_cal(a,math_code,four_cal,four_ans)
        end
 
+       subroutine if_mul_div(a,math_code,four_cal,four_ans)
+              integer::a,b
+              integer,dimension(a-1)::math_code
+              real,dimension(a)::four_cal
+              real::four_ans
+              if(a/=1)goto 7
+              if(a==1)goto 8
+7             write(*,*)'goto7'
+              do i=1,a-1
+                     b=i
+                     if(math_code(i)==3)then
+                     write(*,*)a,math_code(i),four_cal,four_ans,b
+                     call multiply(a,math_code,four_cal,four_ans,b)
+                     write(*,*)a,math_code(i),four_cal,four_ans,b
+                     else if(math_code(i)==4)then
+                     write(*,*)a,math_code(i),four_cal,four_ans,b
+                     call division(a,math_code,four_cal,four_ans,b)
+                     write(*,*)a,math_code(i),four_cal,four_ans,b
+                     end if
+              end do
+8             write(*,*)'goto8'
+              if(math_code(1)==3)then
+                     write(*,*)a,math_code(1),four_cal,four_ans,b
+                     call multiply(a,math_code,four_cal,four_ans,b)
+                     write(*,*)a,math_code(1),four_cal,four_ans,b
+              else if(math_code(1)==4)then
+                     write(*,*)a,math_code(1),four_cal,four_ans,b
+                     call division(a,math_code,four_cal,four_ans,b)
+                     write(*,*)a,math_code(1),four_cal,four_ans,b
+              end if
+       end
+
+       subroutine if_plu_min(a,math_code,four_cal,four_ans)
+              integer::a,b
+              integer,dimension(a-1)::math_code
+              real,dimension(a)::four_cal
+              real::four_ans
+              if(a/=1)goto 7
+              if(a==1)goto 8
+7             write(*,*)'goto7'
+              do i=1,a-1
+                     b=i
+                     if(math_code(i)==1)then
+                     write(*,*)a,math_code(i),four_cal,four_ans,b
+                     call plus(a,math_code,four_cal,four_ans,b)
+                     write(*,*)a,math_code(i),four_cal,four_ans,b
+                     else if(math_code(i)==2)then
+                     write(*,*)a,math_code(i),four_cal,four_ans,b
+                     call minus(a,math_code,four_cal,four_ans,b)
+                     write(*,*)a,math_code(i),four_cal,four_ans,b
+                     end if
+              end do
+8             write(*,*)'goto8'
+              if(math_code(1)==1)then
+                     write(*,*)a,math_code(1),four_cal,four_ans,b
+                     call plus(a,math_code,four_cal,four_ans,b)
+                     write(*,*)a,math_code(1),four_cal,four_ans,b
+              else if(math_code(1)==2)then
+                     write(*,*)a,math_code(1),four_cal,four_ans,b
+                     call minus(a,math_code,four_cal,four_ans,b)
+                     write(*,*)a,math_code(1),four_cal,four_ans,b
+              end if
+       end
+
        subroutine four_math_cal(a,math_code,four_cal,four_ans)
               integer::a,b
               integer,dimension(a-1)::math_code
               real,dimension(a)::four_cal
               real::four_ans
-7             do i=1,a-1
-                     b=i
-                     if(math_code(i)==3)then
-                     call multiply(a,math_code,four_cal,four_ans,b)
-                     else if(math_code(i)==4)then
-                     call division(a,math_code,four_cal,four_ans,b)
-                     else if(math_code(i)==1)then
-                     call plus(a,math_code,four_cal,four_ans,b)
-                     else
-                     call minus(a,math_code,four_cal,four_ans,b)
-                     end if
-                     a=a-1
-                     write(*,*)four_ans
-                     go to 7
-              end do
-              write(*,*)'ans=',four_cal(1)
+              call if_mul_div(a,math_code,four_cal,four_ans)
+              call if_plu_min(a,math_code,four_cal,four_ans)
+              write(*,*)'ans=',four_ans
        end
 
        subroutine multiply(a,math_code,four_cal,four_ans,b)
@@ -74,15 +126,31 @@
               real::four_ans
               four_ans=four_cal(b)*four_cal(b+1)
               four_cal(b)=four_ans
-              do i=b,a-1
+              if(b/=a-1)goto 7
+              if(b==a-1)goto 8
+7             do i=b,a-1
               if(b/=a-1)then   
                      math_code(i)=math_code(i+1)
               end if
               end do
-              do i=b+1,a
+              goto 9
+8             math_code(1)=math_code(2)
+9             do i=b+1,a
               if(b/=a-1)then   
                      four_cal(i)=four_cal(i+1)
               end if
+              end do
+              do i=1,a-1
+                     if(math_code(i)==3  .or. math_code(i)==4) then
+                     a=a-1
+                     call if_mul_div(a,math_code,four_cal,four_ans)
+                     end if
+              end do
+              do i=1,a-1
+                     if(math_code(i)==1 .or. math_code(i)==2) then
+                     a=a-1
+                     call if_plu_min(a,math_code,four_cal,four_ans)
+                     end if
               end do
        end
 
@@ -93,15 +161,31 @@
               real::four_ans
               four_ans=four_cal(b)/four_cal(b+1)
               four_cal(b)=four_ans
-              do i=b,a-1
+              if(b/=a-1)goto 7
+              if(b==a-1)goto 8
+7             do i=b,a-1
               if(b/=a-1)then   
                      math_code(i)=math_code(i+1)
               end if
               end do
-              do i=b+1,a
+              goto 9
+8             math_code(1)=math_code(2)
+9             do i=b+1,a
               if(b/=a-1)then   
                      four_cal(i)=four_cal(i+1)
               end if
+              end do
+              do i=1,a-1
+                     if(math_code(i)==3  .or. math_code(i)==4) then
+                     a=a-1
+                     call if_mul_div(a,math_code,four_cal,four_ans)
+                     end if
+              end do
+              do i=1,a-1
+                     if(math_code(i)==1 .or. math_code(i)==2) then
+                     a=a-1
+                     call if_plu_min(a,math_code,four_cal,four_ans)
+                     end if
               end do
        end
 
@@ -112,15 +196,25 @@
               real::four_ans
               four_ans=four_cal(b)+four_cal(b+1)
               four_cal(b)=four_ans
-              do i=b,a-1
+              if(b/=a-1)goto 7
+              if(b==a-1)goto 8
+7             do i=b,a-1
               if(b/=a-1)then   
                      math_code(i)=math_code(i+1)
               end if
               end do
-              do i=b+1,a
+              goto 9
+8             math_code(1)=math_code(2)
+9             do i=b+1,a
               if(b/=a-1)then   
                      four_cal(i)=four_cal(i+1)
               end if
+              end do
+              do i=1,a-1
+                     if(math_code(i)==1 .or. math_code(i)==2) then
+                     a=a-1
+                     call if_plu_min(a,math_code,four_cal,four_ans)
+                     end if
               end do
        end
 
@@ -131,15 +225,25 @@
               real::four_ans
               four_ans=four_cal(b)-four_cal(b+1)
               four_cal(b)=four_ans
-              do i=b,a-1
+              if(b/=a-1)goto 7
+              if(b==a-1)goto 8
+7             do i=b,a-1
               if(b/=a-1)then   
                      math_code(i)=math_code(i+1)
               end if
               end do
-              do i=b+1,a
+              goto 9
+8             math_code(1)=math_code(2)
+9             do i=b+1,a
               if(b/=a-1)then   
                      four_cal(i)=four_cal(i+1)
               end if
+              end do
+              do i=1,a-1
+                     if(math_code(i)==1 .or. math_code(i)==2) then
+                     a=a-1
+                     call if_plu_min(a,math_code,four_cal,four_ans)
+                     end if
               end do
        end
 
