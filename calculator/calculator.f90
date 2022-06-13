@@ -251,9 +251,22 @@
        end
 
        subroutine linear_equation
+              integer::a,b
+              real::c
               write(*,*)'---------------linear_equation---------------'
+              write(*,*)'  ax+b=0   write a,b'
+              read(*,*)a,b
+              c=-b/(a*1.0)
+              write(*,*)'ans=',c            
        end
 
        subroutine quadratic_equation
+              integer::a,b,c
+              real,dimension(2)::d
               write(*,*)'---------------quadratic_equation---------------'
+              write(*,*)' ax^2+bx+c  write a,b,c'
+              read(*,*)a,b,c
+              d(1)=-b+sqrt(b**2.0-4.0*a*c)/2.0*a
+              d(2)=-b-sqrt(b**2.0-4.0*a*c)/2.0*a
+              write(*,*)d(1),'and',d(2)
        end
