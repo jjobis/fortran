@@ -3,8 +3,8 @@
 !v0.02 *,/ first
 !v0.03 menu
 !v0.03.2 error with four fundamental rules of arithmetics : error code : Program received signal SIGSEGV: Segmentation fault - invalid memory reference.
-!v0.04 linear equation, quadratic equation
-!v0.05 menu + 
+!v0.04 linear equation, quadratic equation,01 integer & real,02 d><=
+!v0.05 menu + sin,cos,tan,........etc
 
        integer::mod_num
        integer::con_cal
@@ -14,8 +14,8 @@
        write(*,*)'select mod'
        read(*,*)mod_num
        if(mod_num==1) call four_fundamental_rules_of_arithmetics
-       if(mod_num==2) call linear_equation
-       if(mod_num==3) call quadratic_equation
+       if(mod_num==2) call linear_equation_menu
+       if(mod_num==3) call quadratic_equation_menu
        write(*,*)'continue calculating? Y->1 N->2'
        read(*,*)con_cal
        if (con_cal==1) goto 11
@@ -76,7 +76,7 @@
                      if(math_code(i)==3)then
                      call multiply(a,math_code,four_cal,four_ans,b)
                      else if(math_code(i)==4)then
-                     call division(a,math_code,four_cal,four_ans,b)
+                     call division(a,math_code,four_cal,four_ans,b) 
                      end if
               end do
 8             continue
@@ -250,23 +250,58 @@
               end do
        end
 
-       subroutine linear_equation
+       subroutine linear_equation_menu
+              integer::equ_num
+              write(*,*)'---------------linear_equation---------------'
+              write(*,*)'integer equation -> 1       real equation -> 2'
+              read(*,*)equ_num
+              if(equ_num==1) call linear_equation_integer
+              if(equ_num==2) call linear_equation_real
+       end
+
+       subroutine linear_equation_integer
               integer::a,b
               real::c
-              write(*,*)'---------------linear_equation---------------'
               write(*,*)'  ax+b=0   write a,b'
               read(*,*)a,b
               c=-b/(a*1.0)
               write(*,*)'ans=',c            
        end
 
-       subroutine quadratic_equation
+       subroutine linear_equation_real
+              real::a,b,c
+              write(*,*)'  ax+b=0   write a,b'
+              read(*,10)a,b
+10            format(f10.4)
+              c=-b/(a*1.0)
+              write(*,*)'ans=',c
+       end
+
+       subroutine quadratic_equation_menu
+              integer::equ_num
+              write(*,*)'---------------quadratic_equation---------------'
+              write(*,*)'integer equation -> 1       real equation -> 2'
+              read(*,*)equ_num
+              if(equ_num==1) call quadratic_equation_integer
+              if(equ_num==2) call quadratic_equation_real
+       end
+
+       subroutine quadratic_equation_integer
               integer::a,b,c
               real,dimension(2)::d
-              write(*,*)'---------------quadratic_equation---------------'
               write(*,*)' ax^2+bx+c  write a,b,c'
               read(*,*)a,b,c
               d(1)=-b+sqrt(b**2.0-4.0*a*c)/2.0*a
               d(2)=-b-sqrt(b**2.0-4.0*a*c)/2.0*a
               write(*,*)d(1),'and',d(2)
+       end
+
+       subroutine quadratic_equation_real
+              real::a,b,c,d,e
+              write(*,*)' ax^2+bx+c  write a,b,c'
+              read(*,10)a,b,c
+10            format(f10.4)
+              d=-b+sqrt(b**2.0-4.0*a*c)/2.0*a
+              e=-b-sqrt(b**2.0-4.0*a*c)/2.0*a
+              write(*,*)d,'and',e
        end
