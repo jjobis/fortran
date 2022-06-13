@@ -25,6 +25,21 @@
        call four_math_cal_read(num_count)
        end
 
+       subroutine check_code_dimensions(a,math_code,four_cal)
+              integer::a,b
+              integer,dimension(a-1)::math_code
+              real,dimension(a)::four_cal
+              real::four_ans
+              write(*,*)'dimension math code'
+              do i=1,a-1
+              write(*,*)math_code(i)
+              end do
+              write(*,*)'dimension cal code'
+              do i=1,a
+              write(*,*)four_cal(i)
+              end do
+       end
+
        subroutine four_math_cal_read(a)
               integer::a
               integer,dimension(a-1)::math_code
@@ -50,9 +65,11 @@
               integer,dimension(a-1)::math_code
               real,dimension(a)::four_cal
               real::four_ans
+              write(*,*)'mu.di'
+              call check_code_dimensions(a,math_code,four_cal)
               if(a/=1)goto 7
               if(a==1)goto 8
-7             write(*,*)'goto7'
+7             write(*,*)'goto7 mu'
               do i=1,a-1
                      b=i
                      if(math_code(i)==3)then
@@ -65,7 +82,7 @@
                      write(*,*)a,math_code(i),four_cal,four_ans,b
                      end if
               end do
-8             write(*,*)'goto8'
+8             write(*,*)'goto8 mu'
               if(math_code(1)==3)then
                      write(*,*)a,math_code(1),four_cal,four_ans,b
                      call multiply(a,math_code,four_cal,four_ans,b)
@@ -82,9 +99,11 @@
               integer,dimension(a-1)::math_code
               real,dimension(a)::four_cal
               real::four_ans
+              write(*,*)'pu.di'
+              call check_code_dimensions(a,math_code,four_cal)
               if(a/=1)goto 7
               if(a==1)goto 8
-7             write(*,*)'goto7'
+7             write(*,*)'goto7 pu'
               do i=1,a-1
                      b=i
                      if(math_code(i)==1)then
@@ -97,7 +116,7 @@
                      write(*,*)a,math_code(i),four_cal,four_ans,b
                      end if
               end do
-8             write(*,*)'goto8'
+8             write(*,*)'goto8 pu'
               if(math_code(1)==1)then
                      write(*,*)a,math_code(1),four_cal,four_ans,b
                      call plus(a,math_code,four_cal,four_ans,b)
