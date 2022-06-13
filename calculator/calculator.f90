@@ -288,12 +288,12 @@
 
        subroutine quadratic_equation_integer
               integer::a,b,c
-              real,dimension(2)::d
+              real::d,e
               write(*,*)' ax^2+bx+c  write a,b,c'
               read(*,*)a,b,c
-              d(1)=-b+sqrt(b**2.0-4.0*a*c)/2.0*a
-              d(2)=-b-sqrt(b**2.0-4.0*a*c)/2.0*a
-              write(*,*)d(1),'and',d(2)
+              d=-b+sqrt(b**2.0-4.0*a*c)/2.0*a
+              e=-b-sqrt(b**2.0-4.0*a*c)/2.0*a
+              call quadratic_equation_d_integer(a,b,c,d,e)
        end
 
        subroutine quadratic_equation_real
@@ -303,5 +303,30 @@
 10            format(f10.4)
               d=-b+sqrt(b**2.0-4.0*a*c)/2.0*a
               e=-b-sqrt(b**2.0-4.0*a*c)/2.0*a
-              write(*,*)d,'and',e
+              call quadratic_equation_d_real(a,b,c,d,e)
+       end
+
+       subroutine quadratic_equation_d_real(a,b,c,d,e)
+              real::a,b,c,d,e,f
+              f=b**2.0-4.0*a*c 
+              if(f==0)then
+              write(*,*)'d=0 [ 1 ] value in x  ',d
+              else if(f>0)then
+              write(*,*)'d>0 [ 2 ] value in x  ',d,'and',e
+              else if(f<0)then
+              write(*,*)'d<0 [ 0 ] value in x  '
+              end if
+       end
+
+       subroutine quadratic_equation_d_integer(a,b,c,d,e)
+              integer::a,b,c
+              real::d,e,f
+              f=b**2.0-4.0*a*c 
+              if(f==0)then
+              write(*,*)'d=0 [ 1 ] value in x  ',d
+              else if(f>0)then
+              write(*,*)'d>0 [ 2 ] value in x  ',d,'and',e
+              else if(f<0)then
+              write(*,*)'d<0 [ 0 ] value in x  '
+              end if
        end
