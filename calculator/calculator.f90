@@ -5,6 +5,7 @@
 !v0.03.2 error with four fundamental rules of arithmetics : error code : Program received signal SIGSEGV: Segmentation fault - invalid memory reference.
 !v0.04 linear equation, quadratic equation,01 integer & real,02 d><=
 !v0.05 menu + sin,cos,tan,........etc
+!v0.06 menu ^2 +
 
        integer::mod_num
        integer::con_cal
@@ -93,6 +94,7 @@
               write(*,*)'                     log -> 2'
               write(*,*)'                    root -> 3'
               write(*,*)'                     abs -> 4'
+              write(*,*)'                      ^2 -> 5'
               read(*,*)function_num
               if(function_num==1)then
                      call trigorometrical_function(tri_ans)
@@ -109,6 +111,10 @@
                      write(*,*)'add number'
                      read(*,*)c
                      four_cal(b)=abs(c)
+              else if(function_num==5)then
+                     write(*,*)'add number'
+                     read(*,*)c
+                     four_cal(b)=c**2
               end if
        end
 
@@ -202,7 +208,7 @@
               goto 9
 8             math_code(1)=math_code(2)
 9             do i=b+1,a
-              if(b/=a-1)then   
+              if(b/=a-1)then
                      four_cal(i)=four_cal(i+1)
               end if
               end do
@@ -309,7 +315,7 @@
                      if(math_code(i)==1 .or. math_code(i)==2) then
                      a=a-1
                      call if_plu_min(a,math_code,four_cal,four_ans)
-                     end if
+                     end if   
               end do
        end
 
