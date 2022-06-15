@@ -6,7 +6,9 @@
 !v0.04 linear equation, quadratic equation,01 integer & real,02 d><=
 !v0.05 menu + sin,cos,tan,........etc
 !v0.06 menu ^2 +
-
+!v0.07 html combine
+!v0.08 
+ 
        integer::mod_num
        integer::con_cal
 11     write(*,*)'four fundamental rules of arithmetics -> 1'
