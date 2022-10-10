@@ -4,7 +4,7 @@
        real, parameter :: pi = 4.*atan(1.)
 
        open(1,file='time.dat')
-       open(2,file='time2.dat')
+       open(2,file='time3.dat')
        do i=1,24
        read(1,10)ws(i),wd(i)
 10     format(7x, i2, 4x, i3)

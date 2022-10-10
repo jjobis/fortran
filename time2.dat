@@ -1,24 +1,124 @@
-    1.0337   -0.3762   -0.3491    1.0337   -0.3762   -0.3491
-   -0.1710   -0.4698   -1.9199    0.8627   -0.8461   -2.2689
-    0.1710    0.4698    1.2217    1.0337   -0.3762   -1.0472
-   -2.2215   -1.8641   -2.4435   -1.1879   -2.2403   -3.4907
-   -2.5279   -2.1212   -2.4435   -3.7158   -4.3615   -5.9341
-    0.5472   -1.5035   -1.2217   -3.1686   -5.8650   -7.1558
-    0.9642   -1.1491   -0.8727   -2.2044   -7.0141   -8.0285
-   -0.0000   -2.0000   -1.5708   -2.2044   -9.0141   -9.5993
-   -1.6087   -1.3499   -2.4435   -3.8131  -10.3639  -12.0428
-   -2.1613   -0.7866   -2.7925   -5.9744  -11.1506  -14.8353
-   -2.1000   -0.0000   -3.1416   -8.0744  -11.1506  -17.9769
-   -1.5035   -0.5472   -2.7925   -9.5779  -11.6978  -20.7694
-   -2.3000   -0.0000   -3.1416  -11.8779  -11.6978  -23.9110
-   -2.3000   -0.0000   -3.1416  -14.1779  -11.6978  -27.0526
-   -1.6000   -0.0000   -3.1416  -15.7779  -11.6978  -30.1942
-   -1.7000   -0.0000   -3.1416  -17.4779  -11.6978  -33.3358
-   -1.3023   -1.0927   -2.4435  -18.7802  -12.7906  -35.7792
-   -0.4698    0.1710    2.7925  -19.2500  -12.6195  -32.9867
-    0.0000   -0.3000   -1.5708  -19.2500  -12.9195  -34.5575
-    0.0000   -0.2000   -1.5708  -19.2500  -13.1195  -36.1283
-   -0.3078    0.8457    1.9199  -19.5578  -12.2738  -34.2085
-   -1.1570    1.3789    2.2689  -20.7149  -10.8949  -31.9395
-    0.2394    0.6578    1.2217  -20.4754  -10.2372  -30.7178
-   -0.0000    1.1000    1.5708  -20.4754   -9.1372  -29.1470
+ 0:00
+resultant wind component u =     1.0337
+resultant wind component v =    -0.3762
+resultant wind velocity    =    -0.3491
+ ---------------------------------------------
+ 1:00
+resultant wind component u =    -0.1710
+resultant wind component v =    -0.4698
+resultant wind velocity    =    -1.9199
+ ---------------------------------------------
+ 2:00
+resultant wind component u =     0.1710
+resultant wind component v =     0.4698
+resultant wind velocity    =     1.2217
+ ---------------------------------------------
+ 3:00
+resultant wind component u =    -2.2215
+resultant wind component v =    -1.8641
+resultant wind velocity    =    -2.4435
+ ---------------------------------------------
+ 4:00
+resultant wind component u =    -2.5279
+resultant wind component v =    -2.1212
+resultant wind velocity    =    -2.4435
+ ---------------------------------------------
+ 5:00
+resultant wind component u =     0.5472
+resultant wind component v =    -1.5035
+resultant wind velocity    =    -1.2217
+ ---------------------------------------------
+ 6:00
+resultant wind component u =     0.9642
+resultant wind component v =    -1.1491
+resultant wind velocity    =    -0.8727
+ ---------------------------------------------
+ 7:00
+resultant wind component u =    -0.0000
+resultant wind component v =    -2.0000
+resultant wind velocity    =    -1.5708
+ ---------------------------------------------
+ 8:00
+resultant wind component u =    -1.6087
+resultant wind component v =    -1.3499
+resultant wind velocity    =    -2.4435
+ ---------------------------------------------
+ 9:00
+resultant wind component u =    -2.1613
+resultant wind component v =    -0.7866
+resultant wind velocity    =    -2.7925
+ ---------------------------------------------
+10:00
+resultant wind component u =    -2.1000
+resultant wind component v =    -0.0000
+resultant wind velocity    =    -3.1416
+ ---------------------------------------------
+11:00
+resultant wind component u =    -1.5035
+resultant wind component v =    -0.5472
+resultant wind velocity    =    -2.7925
+ ---------------------------------------------
+12:00
+resultant wind component u =    -2.3000
+resultant wind component v =    -0.0000
+resultant wind velocity    =    -3.1416
+ ---------------------------------------------
+13:00
+resultant wind component u =    -2.3000
+resultant wind component v =    -0.0000
+resultant wind velocity    =    -3.1416
+ ---------------------------------------------
+14:00
+resultant wind component u =    -1.6000
+resultant wind component v =    -0.0000
+resultant wind velocity    =    -3.1416
+ ---------------------------------------------
+15:00
+resultant wind component u =    -1.7000
+resultant wind component v =    -0.0000
+resultant wind velocity    =    -3.1416
+ ---------------------------------------------
+16:00
+resultant wind component u =    -1.3023
+resultant wind component v =    -1.0927
+resultant wind velocity    =    -2.4435
+ ---------------------------------------------
+17:00
+resultant wind component u =    -0.4698
+resultant wind component v =     0.1710
+resultant wind velocity    =     2.7925
+ ---------------------------------------------
+18:00
+resultant wind component u =     0.0000
+resultant wind component v =    -0.3000
+resultant wind velocity    =    -1.5708
+ ---------------------------------------------
+19:00
+resultant wind component u =     0.0000
+resultant wind component v =    -0.2000
+resultant wind velocity    =    -1.5708
+ ---------------------------------------------
+20:00
+resultant wind component u =    -0.3078
+resultant wind component v =     0.8457
+resultant wind velocity    =     1.9199
+ ---------------------------------------------
+21:00
+resultant wind component u =    -1.1570
+resultant wind component v =     1.3789
+resultant wind velocity    =     2.2689
+ ---------------------------------------------
+22:00
+resultant wind component u =     0.2394
+resultant wind component v =     0.6578
+resultant wind velocity    =     1.2217
+ ---------------------------------------------
+23:00
+resultant wind component u =    -0.0000
+resultant wind component v =     1.1000
+resultant wind velocity    =     1.5708
+ ---------------------------------------------
+mean of resultant wind component u =    -0.8531(m/s)
+mean of resultant wind component v =    -0.3807(m/s)
+mean of resultant wind velocity    =     0.9342(m/s)
+mean of resultant wind direction   =     65.9512°
