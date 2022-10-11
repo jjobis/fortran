@@ -13,6 +13,7 @@
        
        end
 
+
 !mean of resultant wind component -> 합성 바람 성분
 !mean of resultant wind velocity -> 합성 풍속
 !mean of resultant wind direction -> 합성 풍향
