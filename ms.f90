@@ -14,9 +14,9 @@
        end
 
 
-!mean of resultant wind component -> 합성 바람 성분
-!mean of resultant wind velocity -> 합성 풍속
-!mean of resultant wind direction -> 합성 풍향
+!mean of resultant wind component -> 합성 바람 성분픠 평균
+!mean of resultant wind velocity -> 합성 풍속의 평균
+!mean of resultant wind direction -> 합성 풍향의 평균
 
        subroutine readTime(time)
               integer,dimension(24) :: time
@@ -73,7 +73,7 @@
        end subroutine
 
        subroutine writeMeanUV(rp1,rp2,cw)
-!             real, parameter :: pi = 4.*atan(1.)
+              real, parameter :: pi = 4.*atan(1.)
               character(2), parameter :: utf_degree = char(int(Z'C2'))//char(int(Z'B0'))
               real :: rp1,rp2,cw
               write(2,10)rp1
@@ -87,3 +87,10 @@
        40     format('mean of resultant wind direction   = ',f11.4,a2)
 
        end subroutine
+
+
+       ! if x<0 and y=0 -> atan2 pi
+       ! if x=0 and y<0 -> pi/2-> ans with rad value
+       ! if atan(x,y) or atan2(x,y) 
+       ! atan(x,y) -> x>0,x<0,y>0,y<0
+       ! atan2(x,y) -> x+yi -> x>0, x<0, x=0, y<0, y>0, y=0
