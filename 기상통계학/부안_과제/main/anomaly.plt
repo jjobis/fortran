@@ -1,0 +1,1 @@
+plot '1.dat' u 1 with lines lc 3 lt 1 lw 2,'1.dat' u 2 with lines lc 4 lt 1 lw 2,'1.dat' u 3 with lines lc 5 lt 1 lw 2

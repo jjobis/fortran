@@ -1,5 +1,5 @@
-       integer,dimension(24) :: wd, ws, time
-       real,dimension(24) :: u, v, cpwd
+       integer,dimension(24) :: wd, time
+       real,dimension(24) :: u, v, cpwd, ws
        real ::ap1,ap2,rp1,rp2,cw
        real, parameter :: pi = 4.*atan(1.)
        character(2), parameter :: utf_degree = char(int(Z'C2'))//char(int(Z'B0'))
@@ -29,16 +29,16 @@
        end subroutine
 
        subroutine calUV(ws,wd,u,v,cpwd,ap1,ap2)
-              integer,dimension(24) :: wd, ws
-              real,dimension(24) :: u, v, cpwd
+              integer,dimension(24) :: wd
+              real,dimension(24) :: u, v, cpwd, ws
               real :: ap1,ap2,ap3
               real, parameter :: pi = 4.*atan(1.)
               open(11,file='time.dat')
               do i=1,24
               read(11,10)ws(i),wd(i)
-       10     format(7x, i2, 4x, i3)
-              u(i) = (ws(i)*0.1) * cos((270d0-(wd(i)*1.0)) * (pi/180d0))
-              v(i) = (ws(i)*0.1) * sin((270d0-(wd(i)*1.0)) * (pi/180d0))
+       10     format(7x, f3.1, 4x, i3)
+              u(i) = (ws(i)) * cos((270d0-(wd(i)*1.0)) * (pi/180d0))
+              v(i) = (ws(i)) * sin((270d0-(wd(i)*1.0)) * (pi/180d0))
               cpwd(i) = atan2(v(i),u(i))
               ap1=ap1+u(i)
               ap2=ap2+v(i)
