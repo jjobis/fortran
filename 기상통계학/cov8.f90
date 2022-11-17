@@ -1,5 +1,5 @@
 real,allocatable,dimension(:)::x,y
-real :: xmean,ymean,covxy,sx,sy,r,T,pval,DELTA,IDF,Mean_cal,cov
+real :: xmean,ymean,covxy,sx,sy,r,T,al,pval,DELTA,IDF,Mean_cal,cov,var,B
 integer::n
 real(kind=selected_real_kind(18,4931)) :: P,pcal
 open(1,file='a.dat')
@@ -10,7 +10,9 @@ read(1,*)(x(i),i=1,n)
 read(1,*)(y(i),i=1,n)
 
 xmean = Mean_cal(n,x) ; ymean = Mean_cal(n,y)
-write(*,*)xmean,ymean
+write(*,'(2(a,f7.2))')'xmean= ',xmean,' ymean= ',ymean
+var = var_cal(x,n,xmean)
+!write(*,*)'var= ',var
 
 !write(*,*)rf/(n-1.),sqrt(rs/(n-1.)),sqrt(rt/(n-1.))
 cov = covxy(x,y,xmean,ymean,n)
@@ -18,13 +20,29 @@ sx = scal(x,xmean,n)
 sy = scal(y,ymean,n)
 r = Rcal(cov,sx,sy)
 T = Tcal(r,n)
-write(*,'(f15.4)')cov  ! fortran gsl
-write(*,'(2f15.4)')sx,sy
-write(*,'(2f15.4)')r,T
+write(*,'(a,f15.4)')'COV [X,Y] = ' ,cov  ! fortran gsl
+write(*,'(2(a,f15.4))')'Sx= ',sx,'  Sy= ',sy
+write(*,'(2(a,f15.4))')'r= ',r,'  T= ',T
 P = Pcal(n,T)
-write(*,'(f15.6)') P
+write(*,'(a,f15.6)') 'P= ',P
+!B = beta(r,sy,sx)
+B = beta(x,y,xmean,ymean,n)
+write(*,'(a,f15.6)')'B= ' ,B
+al = acal(xmean,ymean,b,n)
+write(*,'(a,f15.6)')'al = ',al
 
 
+end
+
+function var_cal(x,n,mx) result(f)
+       integer :: n
+       real :: mx
+       real,dimension(n)::x
+       f = 0
+       do i = 1, n
+        f = (x(i) -  mx) + f
+        !write(*,*) f
+       end do
 end
 
 function Mean_cal(n,x) result(xm)
@@ -82,3 +100,23 @@ function Pcal(n,T) result(f)
        v = n-1
        f = gamma((v+1)/2.)/(sqrt(v*pi)*gamma(v/2.))*sqrt(1/((1 + T**2/(v*1.0))**(v+1))*1.0)
 end
+
+function beta(x,y,xm,ym,n) result(f)
+       real,dimension(n)::x,y
+       integer :: n
+       real :: xm,ym,re1,re2
+       re1 = 0; re2 = 0; f =0
+       do i = 1,n
+       re1 = ((x(i) - xm)*(y(i) - ym)) + re1
+       re2 = (x(i) - xmean)**2 + re2
+       end do
+       write(*,*)re1,re2
+       f = re1/re2
+end
+
+function acal(xm,ym,b,n) result(f)
+       real :: b,m,xm,ym
+       integer :: n
+       f = ym - (b*xm)
+end
+       
