@@ -1,0 +1,19 @@
+ Pearson correlation
+Mean_b=         18.0344
+Mean_e=         17.5648
+ covxy=         91.0920
+  Sr_b=          9.1715
+  Se_e=          9.9498
+     R=          0.9982
+   COD=          0.9964
+     T=        404.4503
+
+ 'Spearman's rank correlation
+Mean_b=        294.5000
+Mean_e=        294.5000
+ covxy=      28859.1303
+  Sr_b=        169.8825
+  Se_e=        169.8825
+     R=          1.0000
+   COD=          0.9999
+     T=       3019.2012
