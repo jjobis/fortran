@@ -22,14 +22,14 @@ r = Rcal(cov,sx,sy)
 T = Tcal(r,n)
 write(*,'(a,f15.4)')'COV [X,Y] = ' ,cov  ! fortran gsl
 write(*,'(2(a,f15.4))')'Sx= ',sx,'  Sy= ',sy
-write(*,'(2(a,f15.4))')'r= ',r,'  T= ',T
+write(*,'(3(a,f15.4))')'r= ',r,'  R = ',r**2,'  T= ',T
 P = Pcal(n,T)
-write(*,'(a,f15.6)') 'P= ',P
+write(*,'(2(a,f15.6))') 'P= ',P,'  p-value= ',P*2
 !B = beta(r,sy,sx)
 B = beta(x,y,xmean,ymean,n)
-write(*,'(a,f15.6)')'B= ' ,B
-al = acal(xmean,ymean,b,n)
-write(*,'(a,f15.6)')'al = ',al
+write(*,'(a,f15.4)')'B= ' ,B
+al = acal(xmean,ymean,B)
+write(*,'(a,f15.4)')'al = ',al
 
 
 end
@@ -97,8 +97,8 @@ function Pcal(n,T) result(f)
        real,parameter :: pi = 4. * atan(1.)
        real :: T
        real(kind=selected_real_kind(18,4931)) :: f
-       v = n-1
-       f = gamma((v+1)/2.)/(sqrt(v*pi)*gamma(v/2.))*sqrt(1/((1 + T**2/(v*1.0))**(v+1))*1.0)
+       v = n-2
+       f = gamma((v + 1.0d0)/2.0d0)/gamma(v/2.0d0)/sqrt(v * pi)/sqrt((1.0d0 + (T*T/v))**(v+1.0d0))
 end
 
 function beta(x,y,xm,ym,n) result(f)
@@ -108,15 +108,14 @@ function beta(x,y,xm,ym,n) result(f)
        re1 = 0; re2 = 0; f =0
        do i = 1,n
        re1 = ((x(i) - xm)*(y(i) - ym)) + re1
-       re2 = (x(i) - xmean)**2 + re2
+       re2 = (x(i) - xm)**2 + re2
        end do
        write(*,*)re1,re2
        f = re1/re2
 end
 
-function acal(xm,ym,b,n) result(f)
-       real :: b,m,xm,ym
-       integer :: n
+function acal(xm,ym,b) result(f)
+       real :: b,xm,ym
        f = ym - (b*xm)
 end
        
