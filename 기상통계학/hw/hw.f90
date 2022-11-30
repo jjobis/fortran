@@ -5,11 +5,8 @@ real,allocatable,dimension(:)::x,y,yex
 real :: xmean,ymean,cov,sx,sy,r,T,B,al,Mean_cal
 real :: SSR,SSE,SST,MSR,MSE,MST,Fsta,Ta,Tb,se,sa,sb
 real(kind=selected_real_kind(18,4931)) :: P,pcal
-integer :: EDF,RDF,TDF,k,e,bo
-
-write(*,*)'[1901] -> 1 | [1930] -> 2 | [1950] -> 3'
-write(*,*)'[1970] -> 4 | [1980] -> 5 | [1990] -> 6'
-read(*,*)n
+integer :: EDF,RDF,TDF,k,e
+integer,dimension(6) :: co
 
 open(1,file='1901-2000.csv')
 open(2,file='1930-2000.csv')
@@ -25,86 +22,88 @@ open(48,file='result80.dat')
 open(49,file='result90.dat')
 open(999,file='logfind.dat')
 open(9999,file='ANOVA.dat')
+open(22,file='n.dat')
 
-call ne(n,e,bo)
+do n = 1,6
 
-allocate(x(n),y(n),yex(n))
+read(22,*)co(n)
 
-do i = 1,n
-       read(e,*)x(i),y(i)
-       x(i) = i + bo
+allocate(x(co(n)),y(co(n)),yex(co(n)))
+
+do i = 1,co(n)
+       read(n,*)x(n),y(n)
+       x(n) = i
 end do
 
-xmean = Mean_cal(n,x) ; ymean = Mean_cal(n,y)
-cov = covxy(x,y,xmean,ymean,n)
-sx = scal(x,xmean,n)
-sy = scal(y,ymean,n)
+xmean = Mean_cal(co(n),x) ; ymean = Mean_cal(co(n),y)
+cov = covxy(x,y,xmean,ymean,co(n))
+sx = scal(x,xmean,co(n))
+sy = scal(y,ymean,co(n))
 r = Rcal(cov,sx,sy)
-T = Tcal(r,n)
-P = Pcal(n,T)
-B = beta(x,y,xmean,ymean,n)
+T = Tcal(r,co(n))
+P = Pcal(co(n),T)
+B = beta(x,y,xmean,ymean,co(n))
 al = acal(xmean,ymean,B)
 
-do i = 1,n
+do i = 1,co(n)
 yex(i) = tyex(al,B,x(i))
 end do
 
-se = Secal(y,yex,n)
-sa = Sacal(se,x,xmean,n)
-sb = Sbcal(se,x,xmean,n)
+se = Secal(y,yex,co(n))
+sa = Sacal(se,x,xmean,co(n))
+sb = Sbcal(se,x,xmean,co(n))
 Ta = tabcal(al,sa)
 Tb = tabcal(B,sb)
 
-call cssr(SSR,y,yex,n)
-call csse(SSE,yex,ymean,n)
+call cssr(SSR,y,yex,co(n))
+call csse(SSE,yex,ymean,co(n))
 call csst(SST,SSR,SSE)
 
 
 k = 1 !단순회귀 -> 독립변수(k) = 1
 EDF = k
-RDF = n-k-1
-TDF = n-1
+RDF = co(n)-k-1
+TDF = co(n)-1
 MSE = SSE/(EDF*1.0)
 MSR = SSR/(RDF*1.0)
 MST = SST/(TDF*1.0)
 Fsta = MSE/MSR
 !write
 
-call gplot(y,al,B,n,e,bo)
+call gplot(y,al,B,co(n))
 CALL SYSTEM('gnuplot -p plot.plt')
-CALL SYSTEM('gnuplot -p plotall.plt')
 
-write(e+43,10)'xmean =',xmean
-write(e+43,10)'ymean =',ymean
-write(e+43,10)'covxy =',cov
-write(e+43,10)'sx =',sx
-write(e+43,10)'sy =',sy
-write(e+43,10)'r =',r
-write(e+43,10)'R =',r**2
-write(e+43,10)'T =',T
-write(e+43,10)'P-val =',P
-write(e+43,10)'LRA a =',al
-write(e+43,122)'LRA b =',B
-write(e+43,10)'SSR =',SSR
-write(e+43,10)'SSE =',SSE
-write(e+43,10)'SST =',SST
-write(e+43,10)'MSR =',MSR
-write(e+43,10)'MSE =',MSE
-write(e+43,10)'MST =',MST
-write(e+43,11)'EDF =',EDF
-write(e+43,11)'RDF =',RDF
-write(e+43,11)'TDF =',TDF
-write(e+43,10)'Fsta =',Fsta
-write(e+43,10)'se =',se
-write(e+43,10)'sa =',sa
-write(e+43,10)'sb =',sb
-write(e+43,10)'ta =',ta
-write(e+43,10)'tb =',tb
+write(n+43,10)'xmean =',xmean
+write(n+43,10)'ymean =',ymean
+write(n+43,10)'covxy =',cov
+write(n+43,10)'sx =',sx
+write(n+43,10)'sy =',sy
+write(n+43,10)'r =',r
+write(n+43,10)'R =',r**2
+write(n+43,10)'T =',T
+write(n+43,10)'P-val =',P
+write(n+43,10)'LRA a =',al
+write(n+43,122)'LRA b =',B
+write(n+43,10)'SSR =',SSR
+write(n+43,10)'SSE =',SSE
+write(n+43,10)'SST =',SST
+write(n+43,10)'MSR =',MSR
+write(n+43,10)'MSE =',MSE
+write(n+43,10)'MST =',MST
+write(n+43,11)'EDF =',EDF
+write(n+43,11)'RDF =',RDF
+write(n+43,11)'TDF =',TDF
+write(n+43,10)'Fsta =',Fsta
+write(n+43,10)'se =',se
+write(n+43,10)'sa =',sa
+write(n+43,10)'sb =',sb
+write(n+43,10)'ta =',ta
+write(n+43,10)'tb =',tb
 
-write(e+43,*)
-write(e+43,*)'yex arrange'
-do i = 1, n
-write(e+43,20)yex(i)
+write(n+43,*)
+write(n+43,*)'yex arrange'
+do i = 1, co(i)
+write(n+43,20)yex(i)
 end do
 
 call write_anova(EDF,RDF,TDF,SSE,SSR,SST,MSE,MSR,MST,Fsta)
@@ -116,6 +115,9 @@ call write_anova(EDF,RDF,TDF,SSE,SSR,SST,MSE,MSR,MST,Fsta)
 20     format(f15.4)
 122    format(a15,f15.8)
 
+deallocate(x,y,yex)
+
+end do
 
 end
 
@@ -290,66 +292,31 @@ subroutine write_anova(EDF,RDF,TDF,SSE,SSR,SST,MSE,MSR,MST,Fsta)
 
 end
 
-subroutine ne(n,e,bo)
-
-integer :: n,e,bo
-
-if(n==1)then
-n = 1200
-e = 1
-bo = 0
-else if(n==2)then
-n = 852
-e = 2
-bo = 1200 - 852
-else if(n==3)then
-n = 612
-e = 3
-bo = 1200 - 612
-else if(n==4)then
-n = 372
-e = 4
-bo = 1200 - 372
-else if(n==5)then
-n = 252
-e = 5
-bo = 1200 - 252
-else if(n==6)then
-n = 132
-e = 6
-bo = 1200 - 132
-end if
-end
-
-subroutine gplot(x,a,b,n,e,bo)
+subroutine gplot(x,a,b,n)
        real,dimension(n)::x
-       integer :: n,e,bo
+       integer :: n
        real :: a,b
 
        open(777,file='data.txt')
        open(888,file='plot.plt')
 
        do i = 1,n
-       write(777,*)i+bo,x(i)
+       write(777,*)i,x(i)
        end do
 
-       write(888,'(a)')'set title "linear regression analysis (Global Land and Ocean Temperature Anomalies)"'
+       
+
+
+       write(888,'(a)')'set title "Fortran Example'
        write(888,'(a)')'set nokey'
        write(888,'(a)')'set grid'
-       write(888,'(a)')'set ylabel "anomaly"'
-       write(888,'(a)')'set xlabel "year/month count"'
+       write(888,'(a)')'set xlabel "x"'
+       write(888,'(a)')'set ylabel "y"'
        write(888,'(a)')'m="data.txt"'
-       write(888,'(a)')'set style line 11 lc rgb "#808080" lt 1'
-       write(888,'(a)')'set border 3 back ls 11'
-       write(888,'(a)')'set tics nomirror'
-       write(888,'(a)')'set style line 12 lc rgb "#808080" lt 0 lw 1'
-       write(888,'(a)')'set grid back ls 12'
-       write(888,'(a)')'set term png size 1000,600'
-       write(888,'(a,i4,a,i4,a)')'set xrange [',bo,':',1200,']'
-       write(888,'(a,i1,a)')'set output "output',e,'.png"'
-       write(888,200)'plot m using 1:2 pt 1 ps 1 lt 1 lw 1,',a,'+',b,'*x'
+       write(888,200)'plot m using 1:2,',a,'+',b,'*x'
+
 !with linespoints
 
-200    format(a57,f15.4,a1,f15.8,a2)
+200    format(a57,f7.4,a1,f15.8,a2)
 
 end
