@@ -18,6 +18,11 @@ open(4,file='1970-2000.csv')
 open(5,file='1980-2000.csv')
 open(6,file='1990-2000.csv')
 open(44,file='result.dat')
+open(45,file='result30.dat')
+open(46,file='result50.dat')
+open(47,file='result70.dat')
+open(48,file='result80.dat')
+open(49,file='result90.dat')
 open(999,file='logfind.dat')
 open(9999,file='ANOVA.dat')
 
@@ -65,37 +70,37 @@ MST = SST/(TDF*1.0)
 Fsta = MSE/MSR
 !write
 
-write(44,10)'xmean =',xmean
-write(44,10)'ymean =',ymean
-write(44,10)'covxy =',cov
-write(44,10)'sx =',sx
-write(44,10)'sy =',sy
-write(44,10)'r =',r
-write(44,10)'R =',r**2
-write(44,10)'T =',T
-write(44,10)'P-val =',P*2
-write(44,10)'LRA a =',al
-write(44,122)'LRA b =',B
-write(44,10)'SSR =',SSR
-write(44,10)'SSE =',SSE
-write(44,10)'SST =',SST
-write(44,10)'MSR =',MSR
-write(44,10)'MSE =',MSE
-write(44,10)'MST =',MST
-write(44,11)'EDF =',EDF
-write(44,11)'RDF =',RDF
-write(44,11)'TDF =',TDF
-write(44,10)'Fsta =',Fsta
-write(44,10)'se =',se
-write(44,10)'sa =',sa
-write(44,10)'sb =',sb
-write(44,10)'ta =',ta
-write(44,10)'tb =',tb
+write(e+43,10)'xmean =',xmean
+write(e+43,10)'ymean =',ymean
+write(e+43,10)'covxy =',cov
+write(e+43,10)'sx =',sx
+write(e+43,10)'sy =',sy
+write(e+43,10)'r =',r
+write(e+43,10)'R =',r**2
+write(e+43,10)'T =',T
+write(e+43,10)'P-val =',P
+write(e+43,10)'LRA a =',al
+write(e+43,122)'LRA b =',B
+write(e+43,10)'SSR =',SSR
+write(e+43,10)'SSE =',SSE
+write(e+43,10)'SST =',SST
+write(e+43,10)'MSR =',MSR
+write(e+43,10)'MSE =',MSE
+write(e+43,10)'MST =',MST
+write(e+43,11)'EDF =',EDF
+write(e+43,11)'RDF =',RDF
+write(e+43,11)'TDF =',TDF
+write(e+43,10)'Fsta =',Fsta
+write(e+43,10)'se =',se
+write(e+43,10)'sa =',sa
+write(e+43,10)'sb =',sb
+write(e+43,10)'ta =',ta
+write(e+43,10)'tb =',tb
 
-write(44,*)
-write(44,*)'yex arrange'
+write(e+43,*)
+write(e+43,*)'yex arrange'
 do i = 1, n
-write(44,20)yex(i)
+write(e+43,20)yex(i)
 end do
 
 call write_anova(EDF,RDF,TDF,SSE,SSR,SST,MSE,MSR,MST,Fsta)
@@ -209,7 +214,7 @@ function Pcal(n,T) result(f)
        real :: T
        real(kind=selected_real_kind(18,4931)) :: f
        v = n-2
-       f = gamma((v + 1.0d0)/2.0d0)/gamma(v/2.0d0)/sqrt(v * pi)/sqrt((1.0d0 + (T*T/v))**(v+1.0d0))
+       f = gamma((v + 1.0d0)/2.0d0)/(gamma(v/2.0d0)*sqrt(v * pi))/sqrt((1.0d0 + (T*T/v))**(v+1.0d0))
 end
 
 function beta(x,y,xm,ym,n) result(f)
@@ -221,7 +226,6 @@ function beta(x,y,xm,ym,n) result(f)
        re1 = ((x(i) - xm)*(y(i) - ym)) + re1
        re2 = (x(i) - xm)**2 + re2
        end do
-       write(*,*)re1,re2
        f = re1/re2
 end
 
