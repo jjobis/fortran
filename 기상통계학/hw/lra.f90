@@ -5,28 +5,42 @@ real,allocatable,dimension(:)::x,y,yex
 real :: xmean,ymean,cov,sx,sy,r,T,B,al,Mean_cal
 real :: SSR,SSE,SST,MSR,MSE,MST,Fsta,Ta,Tb,se,sa,sb
 real(kind=selected_real_kind(18,4931)) :: P,pcal
-integer :: EDF,RDF,TDF,k,e,bo
+integer :: EDF,RDF,TDF,k,e,bo,lao
+
+write(*,*)'[Land] -> 1 | [Ocean] -> 2 '
+read(*,*)lao
 
 write(*,*)'[1901] -> 1 | [1930] -> 2 | [1950] -> 3'
 write(*,*)'[1970] -> 4 | [1980] -> 5 | [1990] -> 6'
 read(*,*)n
 
-open(1,file='1901-2000.csv')
-open(2,file='1930-2000.csv')
-open(3,file='1950-2000.csv')
-open(4,file='1970-2000.csv')
-open(5,file='1980-2000.csv')
-open(6,file='1990-2000.csv')
-open(44,file='result.dat')
-open(45,file='result30.dat')
-open(46,file='result50.dat')
-open(47,file='result70.dat')
-open(48,file='result80.dat')
-open(49,file='result90.dat')
+open(1,file='land/la1901-2000.csv')
+open(2,file='land/la1930-2000.csv')
+open(3,file='land/la1950-2000.csv')
+open(4,file='land/la1970-2000.csv')
+open(5,file='land/la1980-2000.csv')
+open(6,file='land/la1990-2000.csv')
+open(7,file='ocean/oc1901-2000.csv')
+open(8,file='ocean/oc1930-2000.csv')
+open(9,file='ocean/oc1950-2000.csv')
+open(10,file='ocean/oc1970-2000.csv')
+open(11,file='ocean/oc1980-2000.csv')
+open(12,file='ocean/oc1990-2000.csv')
+open(44,file='land/data/resultla.dat')
+open(45,file='land/data/result30la.dat')
+open(46,file='land/data/result50la.dat')
+open(47,file='land/data/result70la.dat')
+open(48,file='land/data/result80la.dat')
+open(49,file='land/data/result90la.dat')
+open(50,file='ocean/data/resultOC.dat')
+open(51,file='ocean/data/result30OC.dat')
+open(52,file='ocean/data/result50OC.dat')
+open(53,file='ocean/data/result70OC.dat')
+open(54,file='ocean/data/result80OC.dat')
+open(55,file='ocean/data/result90OC.dat')
 open(999,file='logfind.dat')
-open(9999,file='ANOVA.dat')
 
-call ne(n,e,bo)
+call ne(n,e,bo,lao)
 
 allocate(x(n),y(n),yex(n))
 
@@ -70,7 +84,7 @@ MST = SST/(TDF*1.0)
 Fsta = MSE/MSR
 !write
 
-call gplot(y,al,B,n,e,bo)
+call gplot(y,al,B,n,e,bo,lao)
 CALL SYSTEM('gnuplot -p plot.plt')
 CALL SYSTEM('gnuplot -p plotall.plt')
 
@@ -101,19 +115,12 @@ write(e+43,10)'sb =',sb
 write(e+43,10)'ta =',ta
 write(e+43,10)'tb =',tb
 
-write(e+43,*)
-write(e+43,*)'yex arrange'
-do i = 1, n
-write(e+43,20)yex(i)
-end do
-
-call write_anova(EDF,RDF,TDF,SSE,SSR,SST,MSE,MSR,MST,Fsta)
+call write_anova(EDF,RDF,TDF,SSE,SSR,SST,MSE,MSR,MST,Fsta,e)
 
 !format
 
 10     format(a15,f15.4)
 11     format(a15,i10)
-20     format(f15.4)
 122    format(a15,f15.8)
 
 
@@ -271,9 +278,27 @@ subroutine csst(f,x,y)
        f = x + y
 end
 
-subroutine write_anova(EDF,RDF,TDF,SSE,SSR,SST,MSE,MSR,MST,Fsta)
+subroutine write_anova(EDF,RDF,TDF,SSE,SSR,SST,MSE,MSR,MST,Fsta,e)
        real :: SSE,SSR,SST,MSE,MSR,MST,Fsta
-       integer :: EDF,RDF,TDF
+       integer :: EDF,RDF,TDF,e
+
+       character (len = 20):: link
+
+              if (e == 1) link = 'land/data/ANOVA1'
+              if (e == 2) link = 'land/data/ANOVA2'
+              if (e == 3) link = 'land/data/ANOVA3'
+              if (e == 4) link = 'land/data/ANOVA4'
+              if (e == 5) link = 'land/data/ANOVA5'
+              if (e == 6) link = 'land/data/ANOVA6'
+              if (e == 7) link = 'ocean/data/ANOVA1'
+              if (e == 8) link = 'ocean/data/ANOVA2'
+              if (e == 9) link = 'ocean/data/ANOVA3'
+              if (e == 10) link = 'ocean/data/ANOVA4'
+              if (e == 11) link = 'ocean/data/ANOVA5'
+              if (e == 12) link = 'ocean/data/ANOVA6'
+
+       open(9999,file=link)
+
 
        write(9999,100)'',' | ','Degrees of freedom',' | ','Sum of Square',' | ','Mean Square',' | ','F Statistic'
        write(9999,103)'-----------------------------------------------------------------------------------------------------------'
@@ -290,42 +315,76 @@ subroutine write_anova(EDF,RDF,TDF,SSE,SSR,SST,MSE,MSR,MST,Fsta)
 
 end
 
-subroutine ne(n,e,bo)
+subroutine ne(n,e,bo,lao)
 
-integer :: n,e,bo
+integer :: n,e,bo,lao
 
-if(n==1)then
-n = 1200
-e = 1
-bo = 0
-else if(n==2)then
-n = 852
-e = 2
-bo = 1200 - 852
-else if(n==3)then
-n = 612
-e = 3
-bo = 1200 - 612
-else if(n==4)then
-n = 372
-e = 4
-bo = 1200 - 372
-else if(n==5)then
-n = 252
-e = 5
-bo = 1200 - 252
-else if(n==6)then
-n = 132
-e = 6
-bo = 1200 - 132
+if ( lao == 1) then
+       if(n==1)then
+       n = 1200
+       e = 1
+       bo = 0
+       else if(n==2)then
+       n = 852
+       e = 2
+       bo = 1200 - 852
+       else if(n==3)then
+       n = 612
+       e = 3
+       bo = 1200 - 612
+       else if(n==4)then
+       n = 372
+       e = 4
+       bo = 1200 - 372
+       else if(n==5)then
+       n = 252
+       e = 5
+       bo = 1200 - 252
+       else if(n==6)then
+       n = 132
+       e = 6
+       bo = 1200 - 132
+       end if
+else if ( lao == 2) then
+       if(n==1)then
+       n = 1200
+       e = 7
+       bo = 0
+       else if(n==2)then
+       n = 852
+       e = 8
+       bo = 1200 - 852
+       else if(n==3)then
+       n = 612
+       e = 9
+       bo = 1200 - 612
+       else if(n==4)then
+       n = 372
+       e = 10
+       bo = 1200 - 372
+       else if(n==5)then
+       n = 252
+       e = 11
+       bo = 1200 - 252
+       else if(n==6)then
+       n = 132
+       e = 12
+       bo = 1200 - 132
+       end if
 end if
 end
 
-subroutine gplot(x,a,b,n,e,bo)
+subroutine gplot(x,a,b,n,e,bo,lao)
        real,dimension(n)::x
        integer :: n,e,bo
        real :: a,b
-
+       character (len = 12):: link
+       if (lao == 1) then
+       link = 'land/data/'
+       else if (lao == 2) then
+       link = 'ocean/data/'
+       end if
+       
        open(777,file='data.txt')
        open(888,file='plot.plt')
 
@@ -333,7 +392,7 @@ subroutine gplot(x,a,b,n,e,bo)
        write(777,*)i+bo,x(i)
        end do
 
-       write(888,'(a)')'set title "linear regression analysis (Global Land and Ocean Temperature Anomalies)"'
+       write(888,'(a)')'set title "linear regression analysis (Global Temperature Anomalies)"'
        write(888,'(a)')'set nokey'
        write(888,'(a)')'set grid'
        write(888,'(a)')'set ylabel "anomaly"'
@@ -346,7 +405,7 @@ subroutine gplot(x,a,b,n,e,bo)
        write(888,'(a)')'set grid back ls 12'
        write(888,'(a)')'set term png size 1000,600'
        write(888,'(a,i4,a,i4,a)')'set xrange [',bo,':',1200,']'
-       write(888,'(a,i1,a)')'set output "output',e,'.png"'
+       write(888,'(a,a,i2,a)')'set output "',link,e,'.png"'
        write(888,200)'plot m using 1:2 pt 1 ps 1 lt 1 lw 1,',a,'+',b,'*x'
 !with linespoints
 
